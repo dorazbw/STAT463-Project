@@ -1,0 +1,16 @@
+---
+title: "STAT463 Final Project"
+output: html_notebook
+---
+
+
+```{r}
+library(TSA)
+library(simts)
+library(fpp2)
+tsla <- read.table("/Users/apple/Desktop/STAT463/tsla.us.txt",head = TRUE, sep = ",")
+evaluate(list(AR(1), ARMA(3,2), ARMA(3, 5)), Xt, criterion = "MAPE", start = 0.5)
+model_select <- estimate(naive(tsla), Xt)
+check(model_select)
+
+```

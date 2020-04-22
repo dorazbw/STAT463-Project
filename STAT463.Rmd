@@ -1,0 +1,31 @@
+
+
+```{r}
+#Load the data
+load("SC_Daily_Tmax.Rdata")
+#Require the TSA package
+require(TSA)
+#Creating model 1
+day=season(SC_Daily_Tmax)
+model1<-lm(SC_Daily_Tmax~day-1)
+#Creating model 2
+har<-harmonic(x = SC_Daily_Tmax,m = 2)
+model2<-lm(SC_Daily_Tmax~har)
+#Creating model 3
+tcent=time(SC_Daily_Tmax)-mean(time(SC_Daily_Tmax))
+model3<-lm(SC_Daily_Tmax~day+tcent-1)
+#Creating model 4
+model4<-lm(SC_Daily_Tmax~har+tcent)
+```
+
+```{r}
+par(mfrow=c(4,1))
+plot(SC_Daily_Tmax,type = "p", main = "model1",ylim = range(c(fitted(model1),SC_Daily_Tmax)))
+lines(ts(fitted(model1), frequency = frequency(SC_Daily_Tmax), start = start(SC_Daily_Tmax)))
+plot(SC_Daily_Tmax,type = "p", main = "model2",ylim = range(c(fitted(model2),SC_Daily_Tmax)))
+lines(ts(fitted(model2), frequency = frequency(SC_Daily_Tmax), start = start(SC_Daily_Tmax)))
+plot(SC_Daily_Tmax,type = "p", main = "model3",ylim = range(c(fitted(model3),SC_Daily_Tmax)))
+lines(ts(fitted(model3), frequency = frequency(SC_Daily_Tmax), start = start(SC_Daily_Tmax)))
+plot(SC_Daily_Tmax,type = "p", main = "model4",ylim = range(c(fitted(model4),SC_Daily_Tmax)))
+lines(ts(fitted(model4), frequency = frequency(SC_Daily_Tmax), start = start(SC_Daily_Tmax)))
+```

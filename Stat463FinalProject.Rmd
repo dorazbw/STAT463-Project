@@ -1,0 +1,39 @@
+---
+title: "STAT 463 Project"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse) 
+library(DataComputing)
+library(dplyr)
+library(astsa)
+library(mgcv)
+library(simts)
+require(TSA)
+library(xts)
+
+tsla <- read.table(file = '/Users/apple/Desktop/STAT463/tsla.us.txt', sep = ",", head  = TRUE)
+head(tsla)
+test <- 
+  tsla %>%
+  filter(grepl("2016|2017",Date, ignore.case = TRUE))
+
+train <-
+  tsla %>%
+  filter(!grepl("2016|2017",Date, ignore.case = TRUE))
+```
+
+Draw graph based on training data
+```{r}
+tsla_train <- ts(train$Close,freq = 182)
+plot(tsla_train)
+plot(stl(tsla_train,s.window = "periodic"))
+```
+
+Draw graph based on testing data
+```{r}
+tsla_test <- ts(test$Close,freq = 182)
+plot(tsla_test)
+plot(stl(tsla_test,s.window = "periodic"))
+```
